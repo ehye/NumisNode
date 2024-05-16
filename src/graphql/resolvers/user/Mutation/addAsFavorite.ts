@@ -7,9 +7,12 @@ const {
 } = require('mongoose')
 
 export const addAsFavorite: NonNullable<MutationResolvers['addAsFavorite']> = async (_parent, _arg, _ctx) => {
-  const currentUser = await User.findById(_ctx.currentUser?.id).populate<{ favorites: Array<{ id: string }> }>('favorite', {
-    id: 1,
-  })
+  const currentUser = await User.findById(_ctx.currentUser?.id).populate<{ favorites: Array<{ id: string }> }>(
+    'favorite',
+    {
+      id: 1,
+    },
+  )
   if (!currentUser) {
     throw new GraphQLError('wrong credentials', {
       extensions: { code: 'BAD_USER_INPUT' },

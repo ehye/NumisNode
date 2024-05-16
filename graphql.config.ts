@@ -1,4 +1,4 @@
-require('dotenv').config()
+import 'dotenv/config'
 import type { IGraphQLConfig } from 'graphql-config'
 
 const config: IGraphQLConfig = {

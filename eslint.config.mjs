@@ -1,11 +1,23 @@
 // @ts-check
 
 import eslint from '@eslint/js'
-import prettierConfig from 'eslint-config-prettier'
-import tslint from 'typescript-eslint'
+import tseslint from 'typescript-eslint'
 
-export default tslint.config(eslint.configs.recommended, prettierConfig, ...tslint.configs.recommendedTypeChecked, {
-  // ignores: ['src/types'],
+export default tseslint.config(eslint.configs.recommended, ...tseslint.configs.recommendedTypeChecked, {
+  rules: {
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        args: 'all',
+        argsIgnorePattern: '^_',
+        caughtErrors: 'all',
+        caughtErrorsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
+      },
+    ],
+  },
   languageOptions: {
     parserOptions: {
       project: true,

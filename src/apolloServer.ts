@@ -5,10 +5,10 @@ import { useServer } from 'graphql-ws/lib/use/ws'
 import { WebSocketServer } from 'ws'
 import http from 'http'
 
-import { readFilesRecursively } from './src/utils/files'
-import { AuthContext } from './src/types/AuthContext'
-import { resolvers } from './src/graphql/resolvers'
-import { GRAPHQL_SCHEMAS } from './src/utils/config'
+import { readFilesRecursively } from './utils/files'
+import { AuthContext } from './types/AuthContext'
+import { resolvers } from './graphql/resolvers'
+import { GRAPHQL_SCHEMAS } from './utils/config'
 
 export async function apolloServer(httpServer: http.Server<typeof http.IncomingMessage, typeof http.ServerResponse>) {
   const wsServer = new WebSocketServer({

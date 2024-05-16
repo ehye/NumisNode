@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import { readFilesRecursively } from '../utils/files'
 import { resolvers } from '../graphql/resolvers'
 import { Issuer, MutationCreateIssuerArgs } from '../graphql/types/resolvers-types'
-import * as mongooseClient from '../../mongooseClient'
+import * as mongooseClient from '../mongooseClient'
 import casual from 'casual'
 import { GRAPHQL_SCHEMAS } from '../utils/config'
 

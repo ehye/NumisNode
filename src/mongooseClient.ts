@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import { MONGODB_URI } from './src/utils/config'
-import { IS_DEBUG } from './src/utils/config'
+import { MONGODB_URI } from './utils/config'
+import { IS_DEBUG } from './utils/config'
 
 export function start() {
   if (IS_DEBUG) {
