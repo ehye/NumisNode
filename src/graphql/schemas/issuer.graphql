@@ -1,0 +1,31 @@
+extend type Query {
+  allIssuers: [Issuer!]
+  getIssuer(id: String!): Issuer
+}
+
+extend type Mutation {
+  createIssuer(input: IssuerCreate!): Issuer
+  updateIssuer(input: IssuerUpdate!): Issuer
+}
+
+type Issuer {
+  id: ID
+  code: String
+  name: String
+  wikidata_id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input IssuerCreate {
+  code: String!
+  name: String!
+  wikidata_id: String
+}
+
+input IssuerUpdate {
+  id: ID!
+  code: String
+  name: String
+  wikidata_id: String
+}

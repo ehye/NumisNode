@@ -1,0 +1,47 @@
+extend type Query {
+  allUsers: [UserResponse!]
+  getUser(id: String!): UserResponse
+}
+
+extend type Mutation {
+  createUser(input: UserCreate!): UserCreateUpdateResponse
+  updateUser(input: UserUpdate!): UserCreateUpdateResponse
+  addAsFavorite(id: String!): Boolean
+}
+
+input UserCreate {
+  username: String!
+  password: String!
+}
+
+input UserUpdate {
+  id: ID!
+  name: String
+}
+
+type User {
+  id: ID
+  username: String
+  passwordHash: String
+  name: String
+  favorites: [Subject!]
+  friends: [User!]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type UserResponse {
+  id: ID
+  username: String
+  name: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  favorites: [Subject!]
+  friends: [UserResponse!]
+}
+
+type UserCreateUpdateResponse {
+  id: ID
+  username: String
+  name: String
+}

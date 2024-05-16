@@ -1,0 +1,46 @@
+extend type Query {
+  allSubjects(category: String): [Subject!]
+  getSubject(id: String!): Subject
+}
+
+extend type Mutation {
+  createSubject(input: SubjectCreate!): Subject
+  updateSubject(input: SubjectUpdate!): Subject
+}
+
+type Subject {
+  id: ID
+  title: String
+  category: String
+  issuer: Issuer
+  min_year: Int
+  max_year: Int
+  obverse_thumbnail: String
+  reverse_thumbnail: String
+}
+
+# type SubjectThumb {
+#   id: ID!
+#   title: String!
+# }
+
+input SubjectCreate {
+  title: String!
+  category: String
+  min_year: Int
+  max_year: Int
+  issuer: String
+  obverse_thumbnail: String
+  reverse_thumbnail: String
+}
+
+input SubjectUpdate {
+  id: ID!
+  title: String
+  category: String
+  min_year: Int
+  max_year: Int
+  issuer: String
+  obverse_thumbnail: String
+  reverse_thumbnail: String
+}
