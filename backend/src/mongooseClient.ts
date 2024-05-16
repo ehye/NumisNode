@@ -1,16 +1,16 @@
 import mongoose from 'mongoose'
 import { MONGODB_URI } from './utils/config'
-import { IS_DEBUG } from './utils/config'
+import { IS_DEV } from './utils/config'
 
 export function start() {
-  if (IS_DEBUG) {
+  if (IS_DEV) {
     console.log('connecting to', MONGODB_URI)
     mongoose.set('debug', true)
   }
 
   mongoose.set('strictQuery', false)
   mongoose
-    .connect(MONGODB_URI)
+    .connect(MONGODB_URI())
     .then(() => {
       console.log('MongoDB connected')
     })

@@ -20,6 +20,8 @@ const start = async () => {
   const httpServer = http.createServer(app)
   const apollo = await apolloServer(httpServer)
 
+  app.use(express.static('dist'))
+
   // Note you must call `start()` on the `ApolloServer`
   // instance before passing the instance to `expressMiddleware`
   console.log('🚀 Starting Apollo Server...')
