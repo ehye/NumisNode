@@ -1,67 +1,44 @@
 import { Link } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
-import { graphql, FragmentType, useFragment } from '../gql'
-// import Subject, { SubjectFragment } from './Subject'
+import { graphql } from '../gql'
 
-const allSubjectsWithVariablesQueryDocument = graphql(/* GraphQL */ `
+const allSubjectsWithVariablesQuery = graphql(/* GraphQL */ `
   query AllSubjects($category: String) {
     allSubjects(category: $category) {
-      ...SubjectThumbItem
+      id
+      title
+      obverse_thumbnail
+      reverse_thumbnail
     }
   }
 `)
 
-const SubjectThumbFragment = graphql(/* GraphQL */ `
-  fragment SubjectThumbItem on Subject {
-    id
-    title
-    # category
-    # max_year
-    # min_year
-    obverse_thumbnail
-    reverse_thumbnail
+const SubjectList = ({ category }: { category?: string }) => {
+  const { data, error, loading } = useQuery(allSubjectsWithVariablesQuery, {
+    variables: { category },
+  })
+  if (loading) {
+    return <div>Loading...</div>
   }
-`)
-
-type SubjectThumbProps = {
-  subject: FragmentType<typeof SubjectThumbFragment>
-}
-
-const SubjectThumb = (props: SubjectThumbProps) => {
-  const subject = useFragment(SubjectThumbFragment, props.subject)
-
+  if (error) return <p>{error.message}</p>
   return (
     <div>
-      <div>
-        <Link to={`/subject/${subject.id}`}>{subject.title}</Link>
-      </div>
-      <img src={subject.obverse_thumbnail ?? ''} />
+      {data && (
+        <ul>
+          {data.allSubjects?.map((subject, i) => (
+            <div key={`subject-${i}`}>
+              <Link to={`/subject/${subject.id}`}>
+                <img src={subject.obverse_thumbnail ?? ''} />
+                <p>{subject.title}</p>
+              </Link>
+            </div>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }
 
-const SubjectList = () => {
-  // `data` is typed!
-  const { data, loading } = useQuery(allSubjectsWithVariablesQueryDocument, {
-    variables: {},
-  })
-  if (loading) {
-    return <div>loading...</div>
-  }
-
-  return (
-    <>
-      {data && (
-        <ul>
-          {data.allSubjects?.map(
-            (subject, i) =>
-              //   subject &&  <Subject key={`subject-${i}`} subject={subject} />
-              subject && <SubjectThumb key={`subject-${i}`} subject={subject} />
-          )}
-        </ul>
-      )}
-    </>
-  )
-}
+SubjectList.query = allSubjectsWithVariablesQuery
 
 export default SubjectList

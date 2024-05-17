@@ -7,6 +7,10 @@ const config: CodegenConfig = {
   generates: {
     './src/gql/': {
       preset: 'client',
+      config: {
+        skipTypename: true,
+        nonOptionalTypename: true,
+      },
     },
   },
 }

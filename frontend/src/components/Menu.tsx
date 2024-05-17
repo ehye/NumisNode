@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-import { About } from './About'
+import About from './About'
 import Home from './Home'
 import SubjectList from './SubjectList'
 import SubjectInfo from './SubjectInfo'
@@ -28,7 +28,6 @@ export const Menu = () => {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/subjects" element={<SubjectList />} />
         <Route path="/subject/:id" element={<SubjectInfo />} />
         <Route path="/about" element={<About />} />

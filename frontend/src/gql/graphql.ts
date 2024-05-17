@@ -18,7 +18,6 @@ export type Scalars = {
 };
 
 export type Issuer = {
-  __typename?: 'Issuer';
   code?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
@@ -41,7 +40,6 @@ export type IssuerUpdate = {
 };
 
 export type MeInfo = {
-  __typename?: 'MeInfo';
   exp?: Maybe<Scalars['Int']['output']>;
   iat?: Maybe<Scalars['Int']['output']>;
   id?: Maybe<Scalars['String']['output']>;
@@ -50,7 +48,6 @@ export type MeInfo = {
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
   addAsFavorite?: Maybe<Scalars['Boolean']['output']>;
   createIssuer?: Maybe<Issuer>;
   createSubject?: Maybe<Subject>;
@@ -103,7 +100,6 @@ export type MutationUpdateUserArgs = {
 };
 
 export type Query = {
-  __typename?: 'Query';
   allIssuers?: Maybe<Array<Issuer>>;
   allSubjects?: Maybe<Array<Subject>>;
   allUsers?: Maybe<Array<UserResponse>>;
@@ -134,7 +130,6 @@ export type QueryGetUserArgs = {
 };
 
 export type Subject = {
-  __typename?: 'Subject';
   category?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
   issuer?: Maybe<Issuer>;
@@ -167,12 +162,10 @@ export type SubjectUpdate = {
 };
 
 export type Token = {
-  __typename?: 'Token';
   value: Scalars['String']['output'];
 };
 
 export type User = {
-  __typename?: 'User';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   favorites?: Maybe<Array<Subject>>;
   friends?: Maybe<Array<User>>;
@@ -189,14 +182,12 @@ export type UserCreate = {
 };
 
 export type UserCreateUpdateResponse = {
-  __typename?: 'UserCreateUpdateResponse';
   id?: Maybe<Scalars['ID']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   username?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserResponse = {
-  __typename?: 'UserResponse';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   favorites?: Maybe<Array<Subject>>;
   friends?: Maybe<Array<UserResponse>>;
@@ -217,36 +208,31 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'Token', value: string } | null };
+export type LoginMutation = { __typename: 'Mutation', login?: { __typename: 'Token', value: string } | null };
 
 export type GetSubjectQueryVariables = Exact<{
   getSubjectId: Scalars['String']['input'];
 }>;
 
 
-export type GetSubjectQuery = { __typename?: 'Query', getSubject?: { __typename?: 'Subject', id?: string | null, title?: string | null, category?: string | null, min_year?: number | null, max_year?: number | null, obverse_thumbnail?: string | null, reverse_thumbnail?: string | null } | null };
+export type GetSubjectQuery = { __typename: 'Query', getSubject?: { __typename: 'Subject', id?: string | null, title?: string | null, category?: string | null, min_year?: number | null, max_year?: number | null, obverse_thumbnail?: string | null, reverse_thumbnail?: string | null } | null };
 
 export type AllSubjectsQueryVariables = Exact<{
   category?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type AllSubjectsQuery = { __typename?: 'Query', allSubjects?: Array<(
-    { __typename?: 'Subject' }
-    & { ' $fragmentRefs'?: { 'SubjectThumbItemFragment': SubjectThumbItemFragment } }
-  )> | null };
-
-export type SubjectThumbItemFragment = { __typename?: 'Subject', id?: string | null, title?: string | null, obverse_thumbnail?: string | null, reverse_thumbnail?: string | null } & { ' $fragmentName'?: 'SubjectThumbItemFragment' };
+export type AllSubjectsQuery = { __typename: 'Query', allSubjects?: Array<{ __typename: 'Subject', id?: string | null, title?: string | null, obverse_thumbnail?: string | null, reverse_thumbnail?: string | null }> | null };
 
 export type GetUserQueryVariables = Exact<{
   getUserId: Scalars['String']['input'];
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', getUser?: { __typename?: 'UserResponse', id?: string | null, username?: string | null, name?: string | null, favorites?: Array<{ __typename?: 'Subject', id?: string | null, title?: string | null, category?: string | null, max_year?: number | null, min_year?: number | null }> | null } | null };
+export type GetUserQuery = { __typename: 'Query', getUser?: { __typename: 'UserResponse', id?: string | null, username?: string | null, name?: string | null, favorites?: Array<{ __typename: 'Subject', id?: string | null, title?: string | null, category?: string | null, max_year?: number | null, min_year?: number | null }> | null } | null };
 
-export const SubjectThumbItemFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SubjectThumbItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Subject"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"obverse_thumbnail"}},{"kind":"Field","name":{"kind":"Name","value":"reverse_thumbnail"}}]}}]} as unknown as DocumentNode<SubjectThumbItemFragment, unknown>;
+
 export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
 export const GetSubjectDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetSubject"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getSubjectId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getSubject"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getSubjectId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"min_year"}},{"kind":"Field","name":{"kind":"Name","value":"max_year"}},{"kind":"Field","name":{"kind":"Name","value":"obverse_thumbnail"}},{"kind":"Field","name":{"kind":"Name","value":"reverse_thumbnail"}}]}}]}}]} as unknown as DocumentNode<GetSubjectQuery, GetSubjectQueryVariables>;
-export const AllSubjectsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AllSubjects"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"category"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allSubjects"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"category"},"value":{"kind":"Variable","name":{"kind":"Name","value":"category"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"SubjectThumbItem"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"SubjectThumbItem"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Subject"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"obverse_thumbnail"}},{"kind":"Field","name":{"kind":"Name","value":"reverse_thumbnail"}}]}}]} as unknown as DocumentNode<AllSubjectsQuery, AllSubjectsQueryVariables>;
+export const AllSubjectsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AllSubjects"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"category"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allSubjects"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"category"},"value":{"kind":"Variable","name":{"kind":"Name","value":"category"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"obverse_thumbnail"}},{"kind":"Field","name":{"kind":"Name","value":"reverse_thumbnail"}}]}}]}}]} as unknown as DocumentNode<AllSubjectsQuery, AllSubjectsQueryVariables>;
 export const GetUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getUserId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getUserId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"favorites"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"category"}},{"kind":"Field","name":{"kind":"Name","value":"max_year"}},{"kind":"Field","name":{"kind":"Name","value":"min_year"}}]}}]}}]}}]} as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>;

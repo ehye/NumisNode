@@ -1,4 +1,4 @@
-export const About = () => (
+const About = () => (
   <div>
     <h2>About</h2>
 
@@ -19,3 +19,5 @@ export const About = () => (
     </p>
   </div>
 )
+
+export default About
