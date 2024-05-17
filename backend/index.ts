@@ -7,7 +7,7 @@ import { expressMiddleware } from '@apollo/server/express4'
 import { apolloServer } from './src/apolloServer'
 import * as mongooseClient from './src/mongooseClient'
 
-import { GRAPHQL_URI, JWT_SECRET, REST_API } from './src/utils/config'
+import { GRAPHQL_URI, JWT_SECRET, REST_API, PORT } from './src/utils/config'
 import { CustomJwtPayload } from './src/types/AuthContext'
 import diaRouter from './src/routers/diagnoses'
 import patientsRouter from './src/routers/patients'
@@ -52,8 +52,8 @@ const start = async () => {
   app.use(`${REST_API}/patients`, patientsRouter)
   app.use(`${REST_API}/users`, usersRouter)
 
-  const server = app.listen(3001, () => {
-    console.log(`🚀 Server running at http://localhost:3001${GRAPHQL_URI}`)
+  const server = app.listen(`${PORT}`, () => {
+    console.log(`🚀 Server running at http://localhost:${PORT}${GRAPHQL_URI}`)
   })
 
   process.on('SIGTERM', cleanupFunction(server))

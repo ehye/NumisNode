@@ -12,6 +12,7 @@ import Login from './components/Login'
 import User from './components/User'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
+
 const padding = {
   paddingRight: 5,
 }
@@ -23,6 +24,7 @@ interface jwt {
   name: string
 }
 
+// without library
 function parseJwt(token: string): jwt {
   const base64Url: string = token.split('.')[1]
   const base64: string = base64Url.replace(/-/g, '+').replace(/_/g, '/')

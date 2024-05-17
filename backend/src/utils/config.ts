@@ -20,6 +20,7 @@ export const IS_PROD = process.env.NODE_ENV === 'production'
 export const ENV = process.env.NODE_ENV
 
 export const JWT_SECRET = 'secret'
+export const PORT = process.env.PORT || 3001
 
 export const REST_API = '/api'
 
