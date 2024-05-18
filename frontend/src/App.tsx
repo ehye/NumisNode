@@ -98,7 +98,6 @@ const App = () => {
           <Route path="/subjects" element={<SubjectList />} />
           <Route path="/subject/:id" element={<SubjectInfo />} />
           <Route path="/about" element={<About />} />
-          {/* <Route path="/create" element={<CreateNew addNew={addNew} />} /> */}
         </Routes>
       </Router>
     </div>

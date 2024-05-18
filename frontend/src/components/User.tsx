@@ -1,6 +1,7 @@
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { graphql } from '../gql'
 import { useQuery } from '@apollo/client'
+import UserCollection from './UserCollection'
 
 const userInfoDocument = graphql(/* GraphQL */ `
   query GetUser($getUserId: String!) {
@@ -36,15 +37,12 @@ const User = () => {
       {user && (
         <div>
           <p>{user.name}</p>
-          <div>
-            <h3>Collections</h3>
-            {user.favorites &&
-              user.favorites.map((f, i) => (
-                <Link to={`/subject/${f.id}`} key={i}>
-                  {f.title}
-                </Link>
-              ))}
-          </div>
+          {user.favorites && (
+            <div>
+              <h3>Collections ({user.favorites.length})</h3>
+              <UserCollection source={user.favorites} />
+            </div>
+          )}
         </div>
       )}
     </div>
