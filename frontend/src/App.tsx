@@ -94,6 +94,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           {!token && <Route path="/login" element={<Login setToken={setToken} />} />}
+          <Route path="/login" element={token ? <Navigate replace to="/" /> : <Login setToken={setToken} />} />
           <Route path="/user/:id" element={token ? <User /> : <Navigate replace to="/login" />} />
           <Route path="/subjects" element={<SubjectList />} />
           <Route path="/subject/:id" element={<SubjectInfo />} />

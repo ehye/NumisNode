@@ -8,7 +8,7 @@
     "start": "cross-env NODE_ENV=production ts-node ./backend/index.ts",
     "test": "cross-env NODE_ENV=test tsx --test ./backend/src/tests/index.test.ts",
     "build": "pnpm install --prod && cd ./frontend && pnpm install --prod --frozen-lockfile && pnpm run build",
-    "lint": "eslint . --no-error-on-unmatched-pattern",
+    "lint": "eslint . --no-error-on-unmatched-pattern --max-warnings 0",
     "generate": "graphql-codegen --config ./backend/codegen.ts",
     "prettier:check": "prettier --check --no-error-on-unmatched-pattern **/*.{js,jsx,ts,tsx}",
     "prettier": "prettier --check --no-error-on-unmatched-pattern **/*.{js,jsx,ts,tsx} --write"
