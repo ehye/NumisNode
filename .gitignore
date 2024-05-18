@@ -1,7 +1,3 @@
-.env
-.idea/
-coverage
-
 # Logs
 logs
 *.log
@@ -15,10 +11,14 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+coverage
 
 # Editor directories and files
-.vscode
+!.vscode/
 !.vscode/extensions.json
+!.vscode/lanuch.json
+!.vscode/setting.json
 .idea
 .DS_Store
 *.suo

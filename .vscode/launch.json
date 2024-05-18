@@ -1,0 +1,48 @@
+{
+    "configurations": [
+        {
+            "name": "Launch Chrome",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:5173",
+            "skipFiles": [
+                "${workspaceFolder}/node_modules/**/*.js"
+            ],
+            "webRoot": "${workspaceFolder}\\frontend"
+        },
+        {
+            "name": "dev: frontend",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "dev",
+                "--prefix",
+                "frontend"
+            ]
+        },
+        {
+            "name": "dev: server",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "dev"
+            ]
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Debug",
+            "configurations": [
+                "dev: server",
+                "dev: frontend",
+                "Launch Chrome"
+            ]
+        }
+    ]
+}
