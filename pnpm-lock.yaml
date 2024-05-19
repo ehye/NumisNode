@@ -17,9 +17,6 @@ importers:
       bcrypt:
         specifier: ^5.1.1
         version: 5.1.1
-      casual:
-        specifier: ^1.6.2
-        version: 1.6.2
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
@@ -57,6 +54,9 @@ importers:
       '@eslint/js':
         specifier: ^9.2.0
         version: 9.2.0
+      '@faker-js/faker':
+        specifier: ^8.4.1
+        version: 8.4.1
       '@graphql-codegen/cli':
         specifier: ^5.0.2
         version: 5.0.2(@types/node@20.12.12)(graphql@16.8.1)(typescript@5.4.5)
@@ -677,6 +677,10 @@ packages:
   '@eslint/js@9.2.0':
     resolution: {integrity: sha512-ESiIudvhoYni+MdsI8oD7skpprZ89qKocwRM2KEvhhBJ9nl5MRh7BXU5GTod7Mdygq+AUl+QzId6iWJKR/wABA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@faker-js/faker@8.4.1':
+    resolution: {integrity: sha512-XQ3cU+Q8Uqmrbf2e0cIC/QN43sTBSC8KF12u29Mb47tWrt2hAgBXSgpZMj4Ao8Uk0iJcU99QsOCaIL8934obCg==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
 
   '@graphql-codegen/add@5.0.2':
     resolution: {integrity: sha512-ouBkSvMFUhda5VoKumo/ZvsZM9P5ZTyDsI8LW18VxSNWOjrTeLXBWHG8Gfaai0HwhflPtCYVABbriEcOmrRShQ==}
@@ -1380,9 +1384,6 @@ packages:
 
   capital-case@1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==}
-
-  casual@1.6.2:
-    resolution: {integrity: sha512-NQObL800rg32KZ9bBajHbyDjxLXxxuShChQg7A4tbSeG3n1t7VYGOSkzFSI9gkSgOHp+xilEJ7G0L5l6M30KYA==}
 
   chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -2250,9 +2251,6 @@ packages:
       '@types/node':
         optional: true
 
-  mersenne-twister@1.1.0:
-    resolution: {integrity: sha512-mUYWsMKNrm4lfygPkL3OfGzOPTR2DBlTkBNHM//F6hGp8cLThY897crAlk3/Jo17LEOOjQUrNAx6DvgO77QJkA==}
-
   methods@1.1.2:
     resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==}
     engines: {node: '>= 0.6'}
@@ -2313,9 +2311,6 @@ packages:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
     hasBin: true
-
-  moment@2.30.1:
-    resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
 
   mongodb-connection-string-url@3.0.1:
     resolution: {integrity: sha512-XqMGwRX0Lgn05TDB4PyG2h2kKO/FfWJyCzYQbIhXUxz7ETt0I/FqHjUeqj37irJ+Dl1ZtU82uYyj14u2XsZKfg==}
@@ -3686,6 +3681,8 @@ snapshots:
 
   '@eslint/js@9.2.0': {}
 
+  '@faker-js/faker@8.4.1': {}
+
   '@graphql-codegen/add@5.0.2(graphql@16.8.1)':
     dependencies:
       '@graphql-codegen/plugin-helpers': 5.0.3(graphql@16.8.1)
@@ -4719,11 +4716,6 @@ snapshots:
       tslib: 2.6.2
       upper-case-first: 2.0.2
 
-  casual@1.6.2:
-    dependencies:
-      mersenne-twister: 1.1.0
-      moment: 2.30.1
-
   chalk@2.4.2:
     dependencies:
       ansi-styles: 3.2.1
@@ -5678,8 +5670,6 @@ snapshots:
     optionalDependencies:
       '@types/node': 20.12.12
 
-  mersenne-twister@1.1.0: {}
-
   methods@1.1.2: {}
 
   micromatch@4.0.5:
@@ -5725,8 +5715,6 @@ snapshots:
       yallist: 4.0.0
 
   mkdirp@1.0.4: {}
-
-  moment@2.30.1: {}
 
   mongodb-connection-string-url@3.0.1:
     dependencies:

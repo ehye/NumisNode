@@ -8,5 +8,5 @@ export interface CustomJwtPayload extends JwtPayload {
 }
 
 export interface AuthContext {
-  currentUser: CustomJwtPayload | null
+  userToken: CustomJwtPayload | null
 }

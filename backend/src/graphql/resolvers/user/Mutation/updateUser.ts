@@ -3,7 +3,7 @@ import { User } from '../../../../models'
 import type { MutationResolvers } from '../../../types/resolvers-types'
 
 export const updateUser: NonNullable<MutationResolvers['updateUser']> = async (_parent, _arg, _ctx) => {
-  if (_ctx.currentUser?.id !== _arg.input.id) {
+  if (_ctx.userToken?.id !== _arg.input.id) {
     throw new GraphQLError('unauthenticated', {
       extensions: {
         code: 'UNAUTHENTICATED',

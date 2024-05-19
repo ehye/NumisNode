@@ -12,7 +12,7 @@ export function start() {
   mongoose
     .connect(MONGODB_URI())
     .then(() => {
-      console.log('MongoDB connected')
+      console.log('🤝 MongoDB connected')
     })
     .catch(error => {
       console.log('error connection to MongoDB:', error.message)

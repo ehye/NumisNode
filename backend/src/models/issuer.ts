@@ -1,8 +1,8 @@
 import mongoose, { Schema, Document, Types } from 'mongoose'
 // import uniqueValidator from 'mongoose-unique-validator'
 
-export interface IIssuer extends Document {
-  id: string
+export interface IIssuer extends Document<Types.ObjectId> {
+  // id: string
   code: string
   name: string
   wikidata_id: string

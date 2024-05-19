@@ -1,40 +1,56 @@
-import mongoose, { Schema, Types } from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
+import type { Document, Types } from 'mongoose'
 
 export interface ISubject {
   title: string
   category: string
-  issuer: Types.ObjectId
-  max_year: number
-  min_year: number
-  obverse_thumbnail: string
-  reverse_thumbnail: string
+  issuer?: Types.ObjectId
+  max_year?: number
+  min_year?: number
+  obverse_thumbnail?: string
+  reverse_thumbnail?: string
+  likesCount: number
+  likedBy: Array<Types.ObjectId>
 }
 
-const schema = new Schema({
-  title: {
-    type: String,
-    required: true,
+const schema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+    },
+    issuer: {
+      type: Schema.Types.ObjectId,
+      ref: 'Issuer',
+    },
+    max_year: {
+      type: Number,
+    },
+    min_year: {
+      type: Number,
+    },
+    obverse_thumbnail: {
+      type: String,
+    },
+    reverse_thumbnail: {
+      type: String,
+    },
+    likesCount: {
+      type: Number,
+      default: 0,
+    },
+    likedBy: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
-  category: {
-    type: String,
-  },
-  issuer: {
-    type: Schema.Types.ObjectId,
-    ref: 'Issuer',
-  },
-  max_year: {
-    type: Number,
-  },
-  min_year: {
-    type: Number,
-  },
-  obverse_thumbnail: {
-    type: String,
-  },
-  reverse_thumbnail: {
-    type: String,
-  },
-})
+  { timestamps: true }
+)
 
 schema.set('toJSON', {
   transform: (document, returnedObject) => {

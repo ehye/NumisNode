@@ -5,6 +5,22 @@ import type { CodegenConfig } from '@graphql-codegen/cli'
 const config: CodegenConfig = {
   schema: `${GRAPHQL_SCHEMAS}*.graphql`,
 
+  generates: {
+    './backend/src/graphql/types/resolvers-types.ts': {
+      plugins: ['typescript', 'typescript-resolvers'],
+      config: {
+        useIndexSignature: true,
+        contextType: '../../types/AuthContext#AuthContext',
+      },
+      // preset: 'graphql-modules',
+      // presetConfig: {
+      //   requireRootResolvers: true,
+      //   baseTypesPath: '../types/graphql.ts',
+      //   filename: 'generated-types/module-types.ts',
+      // },
+    },
+  },
+
   // // server-preset
   // generates: {
   //   './src/schemas': defineConfig({
@@ -24,26 +40,6 @@ const config: CodegenConfig = {
   //     },
   //   }),
   // },
-
-  generates: {
-    './backend/src/graphql/types/resolvers-types.ts': {
-      plugins: ['typescript', 'typescript-resolvers'],
-      config: {
-        useIndexSignature: true,
-        contextType: '../../types/AuthContext#AuthContext',
-        // maybeValue: 'T extends PromiseLike<infer U> ? Promise<U | null> : T | null',
-        // mappers: {
-        //   User: './../src/models/user#IUser',
-        // },
-      },
-      // preset: 'graphql-modules',
-      // presetConfig: {
-      //   requireRootResolvers: true,
-      //   baseTypesPath: '../types/graphql.ts',
-      //   filename: 'generated-types/module-types.ts',
-      // },
-    },
-  },
 
   // // typescript-mongodb
   // generates: {

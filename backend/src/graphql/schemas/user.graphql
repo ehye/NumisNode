@@ -1,12 +1,33 @@
 extend type Query {
-  allUsers: [UserResponse!]
-  getUser(id: String!): UserResponse
+  allUsers: [NonSensitiveUser!]
+  getUser(id: String!): NonSensitiveUser
 }
 
 extend type Mutation {
   createUser(input: UserCreate!): UserCreateUpdateResponse
   updateUser(input: UserUpdate!): UserCreateUpdateResponse
   addAsFavorite(id: String!): Boolean
+}
+
+type User {
+  id: ID
+  username: String
+  passwordHash: String
+  name: String
+  # favorites: [Subject!]
+  friends: [User!]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type NonSensitiveUser {
+  id: ID
+  username: String
+  name: String
+  # favorites: [Subject!]
+  friends: [User!]
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 input UserCreate {
@@ -19,24 +40,13 @@ input UserUpdate {
   name: String
 }
 
-type User {
-  id: ID
-  username: String
-  passwordHash: String
-  name: String
-  favorites: [Subject!]
-  friends: [User!]
-  createdAt: DateTime
-  updatedAt: DateTime
-}
-
 type UserResponse {
   id: ID
   username: String
   name: String
   createdAt: DateTime
   updatedAt: DateTime
-  favorites: [Subject!]
+  # favorites: [Subject!]
   friends: [UserResponse!]
 }
 

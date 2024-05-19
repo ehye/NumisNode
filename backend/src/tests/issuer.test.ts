@@ -2,21 +2,21 @@ import { test, after, afterEach, before, beforeEach, describe } from 'node:test'
 import assert from 'node:assert/strict'
 import { ApolloServer } from '@apollo/server'
 import gql from 'graphql-tag'
-import { readFilesRecursively } from '../utils/files'
 import { resolvers } from '../graphql/resolvers'
 import { Issuer, MutationCreateIssuerArgs } from '../graphql/types/resolvers-types'
 import * as mongooseClient from '../mongooseClient'
-import casual from 'casual'
+import { readFilesRecursively } from '../utils/files'
 import { GRAPHQL_SCHEMAS } from '../utils/config'
+import { faker } from '@faker-js/faker'
 
 let typeDefs: string
 let testServer: ApolloServer
 
 const input: MutationCreateIssuerArgs = {
   input: {
-    code: casual.word,
-    name: casual.title,
-    wikidata_id: casual.url,
+    code: faker.lorem.word(),
+    name: faker.lorem.word(),
+    wikidata_id: faker.internet.url(),
   },
 }
 

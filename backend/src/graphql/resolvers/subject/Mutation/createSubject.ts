@@ -5,7 +5,7 @@ import type { MutationResolvers } from '../../../types/resolvers-types'
 import { IIssuer } from '../../../../models/issuer'
 
 export const createSubject: NonNullable<MutationResolvers['createSubject']> = async (_parent, _arg, _ctx) => {
-  const subject = new Subject({ ..._arg.input, id: uuid() })
+  const subject = new Subject({ ..._arg.input, id: uuid(), likesCount: 0, likedBy: [] })
   try {
     await subject.save()
   } catch (error) {

@@ -54,11 +54,11 @@ export type Mutation = {
   __typename?: 'Mutation';
   addAsFavorite?: Maybe<Scalars['Boolean']['output']>;
   createIssuer?: Maybe<Issuer>;
-  createSubject?: Maybe<Subject>;
+  createSubject?: Maybe<SubjectCreateUpdateResponse>;
   createUser?: Maybe<UserCreateUpdateResponse>;
   login?: Maybe<Token>;
   updateIssuer?: Maybe<Issuer>;
-  updateSubject?: Maybe<Subject>;
+  updateSubject?: Maybe<SubjectCreateUpdateResponse>;
   updateUser?: Maybe<UserCreateUpdateResponse>;
 };
 
@@ -103,14 +103,24 @@ export type MutationUpdateUserArgs = {
   input: UserUpdate;
 };
 
+export type NonSensitiveUser = {
+  __typename?: 'NonSensitiveUser';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  friends?: Maybe<Array<User>>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  username?: Maybe<Scalars['String']['output']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   allIssuers?: Maybe<Array<Issuer>>;
   allSubjects?: Maybe<Array<Subject>>;
-  allUsers?: Maybe<Array<UserResponse>>;
+  allUsers?: Maybe<Array<NonSensitiveUser>>;
   getIssuer?: Maybe<Issuer>;
   getSubject?: Maybe<Subject>;
-  getUser?: Maybe<UserResponse>;
+  getUser?: Maybe<NonSensitiveUser>;
   me?: Maybe<MeInfo>;
 };
 
@@ -139,6 +149,8 @@ export type Subject = {
   category?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
   issuer?: Maybe<Issuer>;
+  likedBy?: Maybe<Array<User>>;
+  likesCount?: Maybe<Scalars['Int']['output']>;
   max_year?: Maybe<Scalars['Int']['output']>;
   min_year?: Maybe<Scalars['Int']['output']>;
   obverse_thumbnail?: Maybe<Scalars['String']['output']>;
@@ -154,6 +166,18 @@ export type SubjectCreate = {
   obverse_thumbnail?: InputMaybe<Scalars['String']['input']>;
   reverse_thumbnail?: InputMaybe<Scalars['String']['input']>;
   title: Scalars['String']['input'];
+};
+
+export type SubjectCreateUpdateResponse = {
+  __typename?: 'SubjectCreateUpdateResponse';
+  category?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  issuer?: Maybe<Issuer>;
+  max_year?: Maybe<Scalars['Int']['output']>;
+  min_year?: Maybe<Scalars['Int']['output']>;
+  obverse_thumbnail?: Maybe<Scalars['String']['output']>;
+  reverse_thumbnail?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type SubjectUpdate = {
@@ -175,7 +199,6 @@ export type Token = {
 export type User = {
   __typename?: 'User';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  favorites?: Maybe<Array<Subject>>;
   friends?: Maybe<Array<User>>;
   id?: Maybe<Scalars['ID']['output']>;
   name?: Maybe<Scalars['String']['output']>;
@@ -199,7 +222,6 @@ export type UserCreateUpdateResponse = {
 export type UserResponse = {
   __typename?: 'UserResponse';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  favorites?: Maybe<Array<Subject>>;
   friends?: Maybe<Array<UserResponse>>;
   id?: Maybe<Scalars['ID']['output']>;
   name?: Maybe<Scalars['String']['output']>;
@@ -293,10 +315,12 @@ export type ResolversTypes = ResolversObject<{
   IssuerUpdate: IssuerUpdate;
   MeInfo: ResolverTypeWrapper<MeInfo>;
   Mutation: ResolverTypeWrapper<{}>;
+  NonSensitiveUser: ResolverTypeWrapper<NonSensitiveUser>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Subject: ResolverTypeWrapper<Subject>;
   SubjectCreate: SubjectCreate;
+  SubjectCreateUpdateResponse: ResolverTypeWrapper<SubjectCreateUpdateResponse>;
   SubjectUpdate: SubjectUpdate;
   Token: ResolverTypeWrapper<Token>;
   User: ResolverTypeWrapper<User>;
@@ -317,10 +341,12 @@ export type ResolversParentTypes = ResolversObject<{
   IssuerUpdate: IssuerUpdate;
   MeInfo: MeInfo;
   Mutation: {};
+  NonSensitiveUser: NonSensitiveUser;
   Query: {};
   String: Scalars['String']['output'];
   Subject: Subject;
   SubjectCreate: SubjectCreate;
+  SubjectCreateUpdateResponse: SubjectCreateUpdateResponse;
   SubjectUpdate: SubjectUpdate;
   Token: Token;
   User: User;
@@ -356,25 +382,49 @@ export type MeInfoResolvers<ContextType = AuthContext, ParentType extends Resolv
 export type MutationResolvers<ContextType = AuthContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   addAsFavorite?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddAsFavoriteArgs, 'id'>>;
   createIssuer?: Resolver<Maybe<ResolversTypes['Issuer']>, ParentType, ContextType, RequireFields<MutationCreateIssuerArgs, 'input'>>;
-  createSubject?: Resolver<Maybe<ResolversTypes['Subject']>, ParentType, ContextType, RequireFields<MutationCreateSubjectArgs, 'input'>>;
+  createSubject?: Resolver<Maybe<ResolversTypes['SubjectCreateUpdateResponse']>, ParentType, ContextType, RequireFields<MutationCreateSubjectArgs, 'input'>>;
   createUser?: Resolver<Maybe<ResolversTypes['UserCreateUpdateResponse']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   login?: Resolver<Maybe<ResolversTypes['Token']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'password' | 'username'>>;
   updateIssuer?: Resolver<Maybe<ResolversTypes['Issuer']>, ParentType, ContextType, RequireFields<MutationUpdateIssuerArgs, 'input'>>;
-  updateSubject?: Resolver<Maybe<ResolversTypes['Subject']>, ParentType, ContextType, RequireFields<MutationUpdateSubjectArgs, 'input'>>;
+  updateSubject?: Resolver<Maybe<ResolversTypes['SubjectCreateUpdateResponse']>, ParentType, ContextType, RequireFields<MutationUpdateSubjectArgs, 'input'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['UserCreateUpdateResponse']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input'>>;
+}>;
+
+export type NonSensitiveUserResolvers<ContextType = AuthContext, ParentType extends ResolversParentTypes['NonSensitiveUser'] = ResolversParentTypes['NonSensitiveUser']> = ResolversObject<{
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  friends?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type QueryResolvers<ContextType = AuthContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   allIssuers?: Resolver<Maybe<Array<ResolversTypes['Issuer']>>, ParentType, ContextType>;
   allSubjects?: Resolver<Maybe<Array<ResolversTypes['Subject']>>, ParentType, ContextType, Partial<QueryAllSubjectsArgs>>;
-  allUsers?: Resolver<Maybe<Array<ResolversTypes['UserResponse']>>, ParentType, ContextType>;
+  allUsers?: Resolver<Maybe<Array<ResolversTypes['NonSensitiveUser']>>, ParentType, ContextType>;
   getIssuer?: Resolver<Maybe<ResolversTypes['Issuer']>, ParentType, ContextType, RequireFields<QueryGetIssuerArgs, 'id'>>;
   getSubject?: Resolver<Maybe<ResolversTypes['Subject']>, ParentType, ContextType, RequireFields<QueryGetSubjectArgs, 'id'>>;
-  getUser?: Resolver<Maybe<ResolversTypes['UserResponse']>, ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
+  getUser?: Resolver<Maybe<ResolversTypes['NonSensitiveUser']>, ParentType, ContextType, RequireFields<QueryGetUserArgs, 'id'>>;
   me?: Resolver<Maybe<ResolversTypes['MeInfo']>, ParentType, ContextType>;
 }>;
 
 export type SubjectResolvers<ContextType = AuthContext, ParentType extends ResolversParentTypes['Subject'] = ResolversParentTypes['Subject']> = ResolversObject<{
+  category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  issuer?: Resolver<Maybe<ResolversTypes['Issuer']>, ParentType, ContextType>;
+  likedBy?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>;
+  likesCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  max_year?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  min_year?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  obverse_thumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  reverse_thumbnail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type SubjectCreateUpdateResponseResolvers<ContextType = AuthContext, ParentType extends ResolversParentTypes['SubjectCreateUpdateResponse'] = ResolversParentTypes['SubjectCreateUpdateResponse']> = ResolversObject<{
   category?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   issuer?: Resolver<Maybe<ResolversTypes['Issuer']>, ParentType, ContextType>;
@@ -393,7 +443,6 @@ export type TokenResolvers<ContextType = AuthContext, ParentType extends Resolve
 
 export type UserResolvers<ContextType = AuthContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  favorites?: Resolver<Maybe<Array<ResolversTypes['Subject']>>, ParentType, ContextType>;
   friends?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -412,7 +461,6 @@ export type UserCreateUpdateResponseResolvers<ContextType = AuthContext, ParentT
 
 export type UserResponseResolvers<ContextType = AuthContext, ParentType extends ResolversParentTypes['UserResponse'] = ResolversParentTypes['UserResponse']> = ResolversObject<{
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  favorites?: Resolver<Maybe<Array<ResolversTypes['Subject']>>, ParentType, ContextType>;
   friends?: Resolver<Maybe<Array<ResolversTypes['UserResponse']>>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -426,8 +474,10 @@ export type Resolvers<ContextType = AuthContext> = ResolversObject<{
   Issuer?: IssuerResolvers<ContextType>;
   MeInfo?: MeInfoResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  NonSensitiveUser?: NonSensitiveUserResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Subject?: SubjectResolvers<ContextType>;
+  SubjectCreateUpdateResponse?: SubjectCreateUpdateResponseResolvers<ContextType>;
   Token?: TokenResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserCreateUpdateResponse?: UserCreateUpdateResponseResolvers<ContextType>;

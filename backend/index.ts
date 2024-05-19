@@ -13,7 +13,7 @@ import diaRouter from './src/routers/diagnoses'
 import patientsRouter from './src/routers/patients'
 import usersRouter from './src/routers/users'
 
-const getCurrentUserContext = async (authorization: string | undefined): Promise<CustomJwtPayload | null> => {
+const decodeToken = async (authorization: string | undefined): Promise<CustomJwtPayload | null> => {
   const prefix = 'Bearer '
   if (authorization && authorization.startsWith(prefix)) {
     const decodedToken = jwt.verify(authorization.substring(prefix.length), JWT_SECRET) as CustomJwtPayload
@@ -55,11 +55,12 @@ const start = async () => {
     express.json(),
     expressMiddleware(apollo, {
       context: async ({ req }) => {
+        // todo: move to apollo logger
         if (IS_DEV && req.body.operationName != 'IntrospectionQuery') {
           console.log({ operationName: req.body.operationName, query: req.body.query, variables: req.body.variables })
         }
         return {
-          currentUser: await getCurrentUserContext(req.headers.authorization),
+          userToken: await decodeToken(req.headers.authorization),
         }
       },
     })
@@ -89,7 +90,7 @@ const start = async () => {
   app.use(`${REST_API}/users`, usersRouter)
 
   const server = app.listen(`${PORT}`, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}${GRAPHQL_URI}`)
+    console.log(`☕ Server running at http://localhost:${PORT}${GRAPHQL_URI}`)
   })
 
   process.on('SIGTERM', cleanupFunction(server))
