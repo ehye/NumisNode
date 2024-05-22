@@ -1,31 +1,25 @@
 import mongoose from 'mongoose'
-// import uniqueValidator from 'mongoose-unique-validator'
 
-export interface IIssuer {
-  id: string
-  code: string
-  name: string
-  wikidata_id: string
-  createdAt: Date
-  updatedAt: Date
+export interface IBookmark {
+  user: mongoose.Types.ObjectId
+  subject: mongoose.Types.ObjectId
 }
 
 const schema = new mongoose.Schema(
   {
-    code: {
-      type: String,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
     },
-    name: {
-      type: String,
-    },
-    wikidata_id: {
-      type: String,
+    subject: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Subject',
+      required: true,
     },
   },
   { timestamps: true }
 )
-
-// issuerSchema.plugin(uniqueValidator)
 
 schema.set('toJSON', {
   transform: (document, returnedObject) => {
@@ -43,6 +37,6 @@ schema.set('toObject', {
   },
 })
 
-const Issuer = mongoose.model<IIssuer>('Issuer', schema)
+const Bookmark = mongoose.model<IBookmark>('Bookmark', schema)
 
-export default Issuer
+export default Bookmark

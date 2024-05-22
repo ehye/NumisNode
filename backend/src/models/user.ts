@@ -1,17 +1,16 @@
-import mongoose, { Schema } from 'mongoose'
-import type { Document, Types } from 'mongoose'
+import mongoose from 'mongoose'
 
 export interface IUser {
   username: string
   passwordHash: string
   name: string
-  favorites: Array<Types.ObjectId>
-  friends: Array<Types.ObjectId>
-  // updatedAt: Date
-  // createdAt: Date
+  friends: Array<mongoose.Types.ObjectId>
+  favorites: Array<mongoose.Types.ObjectId>
+  createdAt: Date
+  updatedAt: Date
 }
 
-const schema = new Schema(
+const schema = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -31,16 +30,17 @@ const schema = new Schema(
     },
     friends: [
       {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
       },
     ],
     favorites: [
       {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Subject',
       },
     ],
+    // bookmarks: [new mongoose.Schema<IBookmark>({ subject: mongoose.Schema.Types.ObjectId })],
   },
   { timestamps: true }
 )
@@ -64,6 +64,11 @@ schema.set('toObject', {
     delete returnedObject.passwordHash
   },
 })
+
+// type THydrateUserDocument = {
+//   bookmarks: mongoose.Types.DocumentArray<IBookmark>
+// }
+// type UserModelType = mongoose.Model<IUser, {}, {}, {}, THydrateUserDocument>
 
 const User = mongoose.model<IUser>('User', schema)
 

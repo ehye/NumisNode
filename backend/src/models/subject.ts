@@ -1,19 +1,20 @@
-import mongoose, { Schema } from 'mongoose'
-import type { Document, Types } from 'mongoose'
+import mongoose from 'mongoose'
 
 export interface ISubject {
+  id: string
   title: string
   category: string
-  issuer?: Types.ObjectId
+  issuer?: mongoose.Types.ObjectId
   max_year?: number
   min_year?: number
   obverse_thumbnail?: string
   reverse_thumbnail?: string
   likesCount: number
-  likedBy: Array<Types.ObjectId>
+  createdAt: Date
+  updatedAt: Date
 }
 
-const schema = new Schema(
+const schema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -23,7 +24,7 @@ const schema = new Schema(
       type: String,
     },
     issuer: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Issuer',
     },
     max_year: {
@@ -42,12 +43,6 @@ const schema = new Schema(
       type: Number,
       default: 0,
     },
-    likedBy: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
   },
   { timestamps: true }
 )

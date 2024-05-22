@@ -1,6 +1,6 @@
 extend type Query {
   allSubjects(category: String): [Subject!]
-  getSubject(id: String!): Subject
+  getSubject(id: String!): SubjectInfoResponse
 }
 
 extend type Mutation {
@@ -9,8 +9,8 @@ extend type Mutation {
 }
 
 type Subject {
-  id: ID
-  title: String
+  id: ID!
+  title: String!
   category: String
   issuer: Issuer
   min_year: Int
@@ -18,7 +18,8 @@ type Subject {
   obverse_thumbnail: String
   reverse_thumbnail: String
   likesCount: Int
-  likedBy: [User!]
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 input SubjectCreate {
@@ -51,4 +52,19 @@ type SubjectCreateUpdateResponse {
   max_year: Int
   obverse_thumbnail: String
   reverse_thumbnail: String
+}
+
+type SubjectInfoResponse {
+  id: ID!
+  title: String!
+  category: String
+  issuer: Issuer
+  min_year: Int
+  max_year: Int
+  obverse_thumbnail: String
+  reverse_thumbnail: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  likesCount: Int
+  liked: Boolean
 }

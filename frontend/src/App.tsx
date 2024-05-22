@@ -97,7 +97,7 @@ const App = () => {
           <Route path="/login" element={token ? <Navigate replace to="/" /> : <Login setToken={setToken} />} />
           <Route path="/user/:id" element={token ? <User /> : <Navigate replace to="/login" />} />
           <Route path="/subjects" element={<SubjectList />} />
-          <Route path="/subject/:id" element={<SubjectInfo />} />
+          <Route path="/subject/:id" element={<SubjectInfo userId={jwt?.id} />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </Router>

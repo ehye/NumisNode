@@ -1,12 +1,14 @@
 extend type Query {
   allUsers: [NonSensitiveUser!]
   getUser(id: String!): NonSensitiveUser
+  getFavorites: [Subject!]
 }
 
 extend type Mutation {
   createUser(input: UserCreate!): UserCreateUpdateResponse
   updateUser(input: UserUpdate!): UserCreateUpdateResponse
-  addAsFavorite(id: String!): Boolean
+  addFavorite(id: String!): [String!]
+  removeFavorite(id: String!): [String!]
 }
 
 type User {
@@ -14,18 +16,17 @@ type User {
   username: String
   passwordHash: String
   name: String
-  # favorites: [Subject!]
   friends: [User!]
   createdAt: DateTime
   updatedAt: DateTime
 }
 
 type NonSensitiveUser {
-  id: ID
-  username: String
-  name: String
-  # favorites: [Subject!]
+  id: ID!
+  username: String!
+  name: String!
   friends: [User!]
+  favorites: [Subject!]
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -46,7 +47,6 @@ type UserResponse {
   name: String
   createdAt: DateTime
   updatedAt: DateTime
-  # favorites: [Subject!]
   friends: [UserResponse!]
 }
 

@@ -1,12 +1,29 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
+import { setContext } from '@apollo/client/link/context'
 import App from './App.tsx'
 import './index.css'
 
-const client = new ApolloClient({
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('user-token')
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : null,
+    },
+  }
+})
+
+const httpLink = createHttpLink({
   uri: '/_/graphql',
-  cache: new InMemoryCache(),
+})
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache({
+    addTypename: false,
+  }),
 })
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
 import { SetStateAction, useState } from 'react'
+import { Link } from 'react-router-dom'
 import type { Subject } from '../../src/gql/graphql'
 
 export default function FilterableList({ source }: { source: Array<Subject> }) {
@@ -13,12 +13,12 @@ export default function FilterableList({ source }: { source: Array<Subject> }) {
     <>
       <SearchBar query={query} onChange={handleChange} />
       <hr />
-      {source.map((subject, i) => {
-        if (subject.title?.includes(query)) {
+      {source.map(subject => {
+        if (subject.title.includes(query)) {
           return (
-            <Link to={`/subject/${subject.id}`} key={i}>
-              {subject.title}
-            </Link>
+            <div key={subject.id}>
+              <Link to={`/subject/${subject.id}`}>{subject.title}</Link>
+            </div>
           )
         }
       })}

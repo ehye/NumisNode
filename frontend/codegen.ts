@@ -8,8 +8,8 @@ const config: CodegenConfig = {
     './src/gql/': {
       preset: 'client',
       config: {
-        skipTypename: true,
-        nonOptionalTypename: true,
+        // skipTypename: true,
+        // nonOptionalTypename: true,
       },
     },
   },

@@ -9,27 +9,26 @@ import { readFilesRecursively } from '../utils/files'
 import { GRAPHQL_SCHEMAS } from '../utils/config'
 import { faker } from '@faker-js/faker'
 
-let typeDefs: string
 let testServer: ApolloServer
 
-const input: MutationCreateIssuerArgs = {
-  input: {
-    code: faker.lorem.word(),
-    name: faker.lorem.word(),
-    wikidata_id: faker.internet.url(),
-  },
-}
-
 before(async () => {
-  typeDefs = await readFilesRecursively(GRAPHQL_SCHEMAS, '.graphql')
+  const typeDefs = await readFilesRecursively(GRAPHQL_SCHEMAS, '.graphql')
   testServer = new ApolloServer({ typeDefs, resolvers })
 
   mongooseClient.start()
 
-  mongooseClient.dropCollection('issuers')
+  await mongooseClient.dropCollection('issuers')
 })
 
 describe('Issuer: ', () => {
+  const input: MutationCreateIssuerArgs = {
+    input: {
+      code: faker.lorem.word(),
+      name: faker.lorem.word(),
+      wikidata_id: faker.internet.url(),
+    },
+  }
+
   test('add 1 issuer', async () => {
     const response = await testServer.executeOperation<{ createIssuer: Issuer }>({
       query: gql`
@@ -77,5 +76,6 @@ describe('Issuer: ', () => {
 })
 
 after(async () => {
-  mongooseClient.stop()
+  await testServer.stop()
+  await mongooseClient.stop()
 })

@@ -9,6 +9,8 @@ const config: CodegenConfig = {
     './backend/src/graphql/types/resolvers-types.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
       config: {
+        // skipTypename: true,
+        // nonOptionalTypename: true,
         useIndexSignature: true,
         contextType: '../../types/AuthContext#AuthContext',
       },

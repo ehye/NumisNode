@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { graphql } from '../gql'
 
@@ -14,13 +15,22 @@ const allSubjectsWithVariablesQuery = graphql(/* GraphQL */ `
 `)
 
 const SubjectList = ({ category }: { category?: string }) => {
-  const { data, error, loading } = useQuery(allSubjectsWithVariablesQuery, {
+  const location = useLocation()
+
+  const { data, error, loading, refetch } = useQuery(allSubjectsWithVariablesQuery, {
     variables: { category },
   })
+
+  useEffect(() => {
+    refetch()
+  }, [location.key, refetch])
+
   if (loading) {
     return <div>Loading...</div>
   }
-  if (error) return <p>{error.message}</p>
+  if (error) {
+    return <p>{error.message}</p>
+  }
   return (
     <div>
       {data && (

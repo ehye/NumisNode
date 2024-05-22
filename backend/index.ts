@@ -17,7 +17,6 @@ const decodeToken = async (authorization: string | undefined): Promise<CustomJwt
   const prefix = 'Bearer '
   if (authorization && authorization.startsWith(prefix)) {
     const decodedToken = jwt.verify(authorization.substring(prefix.length), JWT_SECRET) as CustomJwtPayload
-    console.log('decodedToken:', decodedToken)
     return { ...decodedToken }
   }
 
@@ -57,7 +56,9 @@ const start = async () => {
       context: async ({ req }) => {
         // todo: move to apollo logger
         if (IS_DEV && req.body.operationName != 'IntrospectionQuery') {
-          console.log({ operationName: req.body.operationName, query: req.body.query, variables: req.body.variables })
+          // console.log({ operationName: req.body.operationName, query: req.body.query, variables: req.body.variables })
+          console.log({ operationName: req.body.operationName, variables: req.body.variables })
+          console.log('------')
         }
         return {
           userToken: await decodeToken(req.headers.authorization),

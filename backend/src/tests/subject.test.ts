@@ -30,7 +30,7 @@ before(async () => {
 
   mongooseClient.start()
 
-  mongooseClient.dropCollection('subjects')
+  await mongooseClient.dropCollection('subjects')
 })
 
 describe('Subject: ', () => {
@@ -75,7 +75,6 @@ describe('Subject: ', () => {
             max_year
             obverse_thumbnail
             reverse_thumbnail
-            likesCount
           }
         }
       `,
@@ -84,10 +83,9 @@ describe('Subject: ', () => {
     assert(response.body.kind === 'single')
     assert.strictEqual(response.body.singleResult.errors, undefined)
     assert.strictEqual(response.body.singleResult.data?.allSubjects.length, 1)
-    assert.strictEqual(response.body.singleResult.data?.allSubjects[0].likesCount, 0)
   })
 })
 
 after(async () => {
-  mongooseClient.stop()
+  await mongooseClient.stop()
 })
