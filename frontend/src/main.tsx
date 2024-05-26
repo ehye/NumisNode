@@ -2,8 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
+import { ChakraProvider } from '@chakra-ui/react'
 import App from './App.tsx'
-import './index.css'
+import theme from './theme'
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('user-token')
@@ -29,7 +30,9 @@ const client = new ApolloClient({
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <ChakraProvider theme={theme}>
+        <App />
+      </ChakraProvider>
     </ApolloProvider>
   </React.StrictMode>
 )

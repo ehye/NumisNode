@@ -2,6 +2,25 @@ import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { graphql } from '../gql'
+import SubjectForm from './SubjectForm'
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Stack,
+  Heading,
+  Text,
+  Image,
+  ButtonGroup,
+  Button,
+  Divider,
+  HStack,
+  Box,
+  SimpleGrid,
+  Center,
+  Container,
+} from '@chakra-ui/react'
 
 const allSubjectsWithVariablesQuery = graphql(/* GraphQL */ `
   query AllSubjects($category: String) {
@@ -31,19 +50,42 @@ const SubjectList = ({ category }: { category?: string }) => {
   if (error) {
     return <p>{error.message}</p>
   }
+
   return (
     <div>
       {data && (
-        <ul>
+        <SimpleGrid minChildWidth="320px" spacingX={2} spacingY="15px">
           {data.allSubjects?.map((subject, i) => (
-            <div key={`subject-${i}`}>
-              <Link to={`/subject/${subject.id}`}>
-                <img src={subject.obverse_thumbnail ?? ''} />
-                <p>{subject.title}</p>
-              </Link>
-            </div>
+            <Box key={`subject-${i}`}>
+              <Card maxW="sm">
+                <CardBody>
+                  <Link to={`/subject/${subject.id}`}>
+                    <HStack>
+                      <Image maxW="50%" src={subject.obverse_thumbnail ?? undefined} />
+                      <Image maxW="50%" src={subject.reverse_thumbnail ?? undefined} />
+                    </HStack>
+                  </Link>
+                  <Stack mt="6" spacing="3">
+                    <Link to={`/subject/${subject.id}`}>
+                      <Heading size="md">{subject.title}</Heading>
+                    </Link>
+                    <Text>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel aliquet ante, non commodo
+                      purus.
+                    </Text>
+                  </Stack>
+                </CardBody>
+                {/* <CardFooter>
+                  <ButtonGroup spacing="1">
+                    <Button variant="solid" colorScheme="blue">
+                      Like
+                    </Button>
+                  </ButtonGroup>
+                </CardFooter> */}
+              </Card>
+            </Box>
           ))}
-        </ul>
+        </SimpleGrid>
       )}
     </div>
   )

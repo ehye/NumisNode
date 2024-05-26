@@ -1,31 +1,23 @@
 import { useState, useEffect } from 'react'
-import { useApolloClient } from '@apollo/client'
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev'
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 
 import About from './components/About'
 import Home from './components/Home'
 import SubjectList from './components/SubjectList'
 import SubjectInfo from './components/SubjectInfo'
-import Login from './components/Login'
+import RootLayout from './components/RootLayout'
 import User from './components/User'
-import './App.css'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
 
-const padding = {
-  paddingRight: 5,
-}
-
-interface jwt {
+export type Jwt = {
   iat: number
   id: string
   username: string
   name: string
-}
+} | null
 
 // without library
-function parseJwt(token: string): jwt {
+function parseJwt(token: string): Jwt {
   const base64Url: string = token.split('.')[1]
   const base64: string = base64Url.replace(/-/g, '+').replace(/_/g, '/')
   const jsonPayload: string = decodeURIComponent(
@@ -42,9 +34,7 @@ function parseJwt(token: string): jwt {
 }
 
 const App = () => {
-  const [token, setToken] = useState('')
-  const [jwt, setJwt] = useState<jwt>()
-  const client = useApolloClient()
+  const [user, setUser] = useState<Jwt>()
 
   loadDevMessages()
   loadErrorMessages()
@@ -52,57 +42,38 @@ const App = () => {
   useEffect(() => {
     const userToken = localStorage.getItem('user-token')
     if (userToken) {
-      setToken(userToken)
-      setJwt(parseJwt(userToken))
+      setUser(parseJwt(userToken))
     }
   }, [])
 
-  const logout = () => {
-    setToken('')
-    localStorage.clear()
-    client.resetStore()
-  }
-
-  return (
-    <div className="App">
-      <Router>
-        <div>
-          <Link style={padding} to="/">
-            Home
-          </Link>
-          <Link style={padding} to="/subjects">
-            Explore
-          </Link>
-          <Link style={padding} to="/about">
-            About
-          </Link>
-          {jwt && (
-            <>
-              <Link to={`/user/${jwt.id}`}>Hi! {jwt.name} </Link>
-              <a href="" onClick={logout}>
-                Log out
-              </a>
-            </>
-          )}
-          {!token && (
-            <Link style={padding} to="/login">
-              Log in
-            </Link>
-          )}
-        </div>
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          {!token && <Route path="/login" element={<Login setToken={setToken} />} />}
-          <Route path="/login" element={token ? <Navigate replace to="/" /> : <Login setToken={setToken} />} />
-          <Route path="/user/:id" element={token ? <User /> : <Navigate replace to="/login" />} />
-          <Route path="/subjects" element={<SubjectList />} />
-          <Route path="/subject/:id" element={<SubjectInfo userId={jwt?.id} />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </Router>
-    </div>
-  )
+  const router = createBrowserRouter([
+    {
+      element: <RootLayout children={<Outlet />} user={user} setUser={setUser} />,
+      children: [
+        {
+          path: '/',
+          element: <Home />,
+        },
+        {
+          path: '/subjects',
+          element: <SubjectList />,
+        },
+        {
+          path: 'subject/:id',
+          element: <SubjectInfo userId={user?.id} />,
+        },
+        {
+          path: '/user/:id',
+          element: <User />,
+        },
+        {
+          path: '/about',
+          element: <About />,
+        },
+      ],
+    },
+  ])
+  return <RouterProvider router={router} />
 }
 
 export default App

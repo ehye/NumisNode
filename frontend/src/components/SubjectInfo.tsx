@@ -71,7 +71,8 @@ const SubjectInfo = ({ userId }: { userId?: string }) => {
       return
     }
     if (!userId) {
-      alert('log in first')
+      alert('Log in first')
+      return
     }
     if (liked) {
       await removeLike({ variables: { removeFavoriteId: id } })

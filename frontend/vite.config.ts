@@ -22,6 +22,9 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
         },
       },
+      watch: {
+        usePolling: true,
+      },
     },
     test: {
       environment: 'jsdom',
