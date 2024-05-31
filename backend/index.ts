@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { debug } from 'node:console'
-import express, { Express, Request, Response, NextFunction } from 'express'
+import express, { Request, Response, NextFunction } from 'express'
+import compression from 'compression'
 import http from 'http'
 import cors from 'cors'
 import jwt from 'jsonwebtoken'
@@ -26,13 +27,12 @@ const decodeToken = async (authorization: string | undefined): Promise<CustomJwt
 const cleanupFunction =
   (server: http.Server): NodeJS.SignalsListener =>
   () => {
-    console.log('Closing HTTP server...')
+    debug('SIGTERM signal received: closing HTTP server')
     mongooseClient.stop().then(() => {
-      console.log('mongooseClient closed')
+      debug('mongooseClient closed')
     })
-
     server.close(() => {
-      console.log('HTTP server closed')
+      debug('HTTP server closed')
     })
   }
 
@@ -40,6 +40,7 @@ const start = async () => {
   mongooseClient.start()
 
   const app = express()
+  app.use(compression())
   const httpServer = http.createServer(app)
   const apollo = await apolloServer(httpServer)
 
@@ -79,7 +80,6 @@ const start = async () => {
 
   if (IS_PROD) {
     app.use(express.static(path.join(__dirname, '..', 'dist')))
-    // app.use(express.static('dist'))
   }
 
   app.get(`/health`, (_req, res) => {

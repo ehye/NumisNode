@@ -4,3 +4,4 @@
 backend/src/graphql/types/**
 
 frontend/src/gql**
+frontend/coverage/
