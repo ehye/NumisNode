@@ -8,6 +8,7 @@ import SubjectList from './components/SubjectList'
 import SubjectInfo from './components/SubjectInfo'
 import RootLayout from './components/RootLayout'
 import User from './components/User'
+import ErrorPage from './components/ErrorPage'
 
 export type Jwt = {
   iat: number
@@ -49,6 +50,7 @@ const App = () => {
   const router = createBrowserRouter([
     {
       element: <RootLayout children={<Outlet />} user={user} setUser={setUser} />,
+      errorElement: <ErrorPage />,
       children: [
         {
           path: '/',
