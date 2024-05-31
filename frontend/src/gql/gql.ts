@@ -14,6 +14,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  mutation Login($username: String!, $password: String!) {\n    login(username: $username, password: $password) {\n      value\n    }\n  }\n": types.LoginDocument,
+    "\n  query AllIssuers {\n    allIssuers {\n      id\n      name\n    }\n  }\n": types.AllIssuersDocument,
+    "\n  mutation CreateSubject($input: SubjectCreate!) {\n    createSubject(input: $input) {\n      id\n      title\n      min_year\n      max_year\n    }\n  }\n": types.CreateSubjectDocument,
     "\n  query GetSubject($getSubjectId: String!) {\n    getSubject(id: $getSubjectId) {\n      id\n      title\n      category\n      min_year\n      max_year\n      obverse_thumbnail\n      reverse_thumbnail\n      liked\n      likesCount\n    }\n  }\n": types.GetSubjectDocument,
     "\n  mutation AddFavorite($addFavoriteId: String!) {\n    addFavorite(id: $addFavoriteId)\n  }\n": types.AddFavoriteDocument,
     "\n  mutation RemoveFavorite($removeFavoriteId: String!) {\n    removeFavorite(id: $removeFavoriteId)\n  }\n": types.RemoveFavoriteDocument,
@@ -39,6 +41,14 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation Login($username: String!, $password: String!) {\n    login(username: $username, password: $password) {\n      value\n    }\n  }\n"): (typeof documents)["\n  mutation Login($username: String!, $password: String!) {\n    login(username: $username, password: $password) {\n      value\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query AllIssuers {\n    allIssuers {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  query AllIssuers {\n    allIssuers {\n      id\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation CreateSubject($input: SubjectCreate!) {\n    createSubject(input: $input) {\n      id\n      title\n      min_year\n      max_year\n    }\n  }\n"): (typeof documents)["\n  mutation CreateSubject($input: SubjectCreate!) {\n    createSubject(input: $input) {\n      id\n      title\n      min_year\n      max_year\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

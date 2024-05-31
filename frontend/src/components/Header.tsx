@@ -4,6 +4,7 @@ import {
   Button,
   Flex,
   FlexProps,
+  Link as ChakraLink,
   HStack,
   Popover,
   PopoverTrigger,
@@ -17,6 +18,7 @@ import {
   useDisclosure,
   useColorMode,
 } from '@chakra-ui/react'
+import { Link as ReactRouterLink } from 'react-router-dom'
 import { FiMenu, FiBell, FiSun, FiMoon } from 'react-icons/fi'
 import Login from './Login'
 import { Jwt } from '../App'
@@ -26,7 +28,7 @@ interface HeaderProps extends FlexProps {
   signOut: () => void
   onOpenMobileSidebar: () => void
 }
-const Header = ({ user, signOut, onOpenMobileSidebar, ...rest }: HeaderProps) => {
+const Header = ({ user, signOut, onOpenMobileSidebar }: HeaderProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { colorMode, toggleColorMode } = useColorMode()
 
@@ -38,7 +40,6 @@ const Header = ({ user, signOut, onOpenMobileSidebar, ...rest }: HeaderProps) =>
       height="10"
       alignItems="center"
       justifyContent={{ base: 'space-between', md: 'flex-end' }}
-      {...rest}
     >
       <IconButton
         display={{ base: 'flex', md: 'none' }}
@@ -52,7 +53,7 @@ const Header = ({ user, signOut, onOpenMobileSidebar, ...rest }: HeaderProps) =>
         NumisNode
       </Text>
 
-      <HStack spacing={{ base: '10', md: '4' }}>
+      <HStack spacing={{ base: '0', md: '4' }}>
         <IconButton
           onClick={toggleColorMode}
           size="lg"
@@ -101,8 +102,10 @@ const Header = ({ user, signOut, onOpenMobileSidebar, ...rest }: HeaderProps) =>
                 </HStack>
               </MenuButton>
               <MenuList>
-                <MenuItem as="a" href={'/user/' + user.id}>
-                  Profile
+                <MenuItem>
+                  <ChakraLink as={ReactRouterLink} to={'/user/' + user.id}>
+                    Profile
+                  </ChakraLink>
                 </MenuItem>
                 <MenuItem onClick={signOut}>Sign out</MenuItem>
               </MenuList>

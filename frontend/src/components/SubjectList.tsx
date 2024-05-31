@@ -2,25 +2,7 @@ import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { graphql } from '../gql'
-import SubjectForm from './SubjectForm'
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Stack,
-  Heading,
-  Text,
-  Image,
-  ButtonGroup,
-  Button,
-  Divider,
-  HStack,
-  Box,
-  SimpleGrid,
-  Center,
-  Container,
-} from '@chakra-ui/react'
+import { Card, CardBody, Stack, Heading, Text, Image, HStack, Box, SimpleGrid } from '@chakra-ui/react'
 
 const allSubjectsWithVariablesQuery = graphql(/* GraphQL */ `
   query AllSubjects($category: String) {
