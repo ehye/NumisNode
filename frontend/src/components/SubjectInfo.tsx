@@ -1,5 +1,20 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import {
+  Box,
+  Container,
+  Stack,
+  Text,
+  Image,
+  Flex,
+  VStack,
+  Button,
+  Heading,
+  SimpleGrid,
+  StackDivider,
+  List,
+  ListItem,
+} from '@chakra-ui/react'
 import { graphql } from '../gql'
 import { useQuery, useMutation } from '@apollo/client'
 
@@ -81,29 +96,90 @@ const SubjectInfo = ({ userId }: { userId?: string }) => {
     }
   }
 
-  if (loading) {
+  if (loading || data?.getSubject == null) {
     return <div>loading...</div>
   }
 
-  const subject = data?.getSubject
+  const subject = data.getSubject
+
   return (
-    <div>
-      {subject && (
-        <div>
-          <p>{subject?.title}</p>
-          <p>{subject?.category}</p>
-          <p>
-            {subject?.min_year}~{subject?.max_year}
-          </p>
-          <div>
-            <img src={subject?.obverse_thumbnail ?? ''} />
-            <img src={subject?.reverse_thumbnail ?? ''} />
-          </div>
-          {!liked && <button onClick={handleLike}>{subject.likesCount} Like</button>}
-          {liked && <button onClick={handleLike}>{subject.likesCount} Unlike</button>}
-        </div>
-      )}
-    </div>
+    <Container maxW={'7xl'}>
+      <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 8, md: 10 }} py={{ base: 18, md: 24 }}>
+        <Flex maxWidth="50%">
+          <Image
+            maxBlockSize="200px"
+            // objectFit='cover'
+            // rounded={'md'}
+            // fit={'cover'}
+            // align={'center'}
+            // w={'100%'}
+            // h={{ base: '100%', sm: '400px', lg: '500px' }}
+            src={subject.obverse_thumbnail ?? ''}
+          />
+          <Image
+            maxBlockSize="200px"
+            // rounded={'md'}
+            // fit={'cover'}
+            // align={'center'}
+            // w={'100%'}
+            // h={{ base: '100%', sm: '400px', lg: '500px' }}
+            src={subject.reverse_thumbnail ?? ''}
+          />
+        </Flex>
+        <Stack spacing={{ base: 6, md: 10 }}>
+          <Box as={'header'}>
+            <Heading lineHeight={1.1} fontWeight={600} fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
+              {subject.title}
+            </Heading>
+            <Text fontWeight={300} fontSize={'2xl'}>
+              {subject.min_year}~{subject.max_year}
+            </Text>
+          </Box>
+
+          <Stack spacing={{ base: 4, sm: 6 }} direction={'column'} divider={<StackDivider />}>
+            <VStack spacing={{ base: 4, sm: 6 }}>
+              <Text fontSize={'2xl'} fontWeight={'300'}>
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                labore
+              </Text>
+              <Text fontSize={'lg'}>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid amet at delectus doloribus dolorum
+                expedita hic, ipsum maxime modi nam officiis porro, quae, quisquam quos reprehenderit velit? Natus,
+                totam.
+              </Text>
+            </VStack>
+            <Box>
+              <Text fontSize={{ base: '16px', lg: '18px' }} fontWeight={'500'} textTransform={'uppercase'} mb={'4'}>
+                Features
+              </Text>
+
+              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+                <List spacing={2}>
+                  <ListItem>Chronograph</ListItem>
+                  <ListItem>Master Chronometer Certified</ListItem>
+                  <ListItem>Tachymeter</ListItem>
+                </List>
+                <List spacing={2}>
+                  <ListItem>Anti-magnetic</ListItem>
+                  <ListItem>Chronometer</ListItem>
+                  <ListItem>Small seconds</ListItem>
+                </List>
+              </SimpleGrid>
+            </Box>
+          </Stack>
+          {!liked && (
+            <Button w={'full'} mt={8} size={'lg'} py={'7'} onClick={handleLike}>
+              {subject.likesCount} Likes
+            </Button>
+          )}
+          {liked && (
+            <Button w={'full'} mt={8} size={'lg'} py={'7'} onClick={handleLike}>
+              {subject.likesCount} Unlike
+            </Button>
+          )}
+        </Stack>
+      </SimpleGrid>
+    </Container>
   )
 }
 
