@@ -1,0 +1,93 @@
+﻿name: Deployment Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+jobs:
+  test:
+    if: ${{ !contains(github.event.commits[0].message, '#skip') }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['lts/Hydrogen', 'latest']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: |
+          pnpm install
+          cd ./frontend
+          pnpm install
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: |
+          pnpm build
+          ls -a
+          
+      - name: Run frontend tests
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+        working-directory: ./frontend
+        run: pnpm run test
+
+      - name: Run backend tests
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+        run: pnpm run test
+
+      - name: Install Playwright Browsers
+        working-directory: ./frontend
+        run: npx playwright install --with-deps
+
+      - name: Run e2e tests
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+        working-directory: ./frontend
+        run: pnpm run test:e2e
+
+      - name: Send test to Discord
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          title: 'Test on ${{ matrix.node-version }}'
+          description: 'Test ${{ job.status }} on ${{ matrix.node-version }}'
+          avatar_url: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'
+          username: GitHub Actions
+
+  deploy:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger deployment
+        if: ${{ github.event_name == 'push' }}
+        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+
+      - name: Send deploy to Discord
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          nocontext: true
+          title: 'Deploy'
+          avatar_url: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'
+          username: GitHub Actions
