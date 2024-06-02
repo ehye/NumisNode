@@ -30,7 +30,7 @@ const client = new ApolloClient({
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <ChakraProvider theme={theme}>
+      <ChakraProvider theme={theme} toastOptions={{ defaultOptions: { position: 'top' } }}>
         <App />
       </ChakraProvider>
     </ApolloProvider>

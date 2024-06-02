@@ -2,7 +2,19 @@ import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { graphql } from '../gql'
-import { Card, CardBody, Stack, Heading, Text, Image, HStack, Box, SimpleGrid } from '@chakra-ui/react'
+import {
+  Card,
+  CardBody,
+  Stack,
+  Heading,
+  Text,
+  Image,
+  HStack,
+  Box,
+  SimpleGrid,
+  SkeletonCircle,
+  SkeletonText,
+} from '@chakra-ui/react'
 
 const allSubjectsWithVariablesQuery = graphql(/* GraphQL */ `
   query AllSubjects($category: String) {
@@ -27,7 +39,12 @@ const SubjectList = ({ category }: { category?: string }) => {
   }, [location.key, refetch])
 
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <Box padding="6" boxShadow="lg" bg="white" width="20%">
+        <SkeletonCircle size="10" />
+        <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+      </Box>
+    )
   }
   if (error) {
     return <p>{error.message}</p>

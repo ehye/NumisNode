@@ -14,9 +14,14 @@ import {
   StackDivider,
   List,
   ListItem,
+  SkeletonCircle,
+  SkeletonText,
+  useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
 import { graphql } from '../gql'
 import { useQuery, useMutation } from '@apollo/client'
+import Login from './Login'
 
 const SUBJECT_INFO_DOCUMENT = graphql(/* GraphQL */ `
   query GetSubject($getSubjectId: String!) {
@@ -49,6 +54,9 @@ const REMOVE_FAVORITE = graphql(/* GraphQL */ `
 const SubjectInfo = ({ userId }: { userId?: string }) => {
   const { id } = useParams()
   const [liked, setLiked] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const toast = useToast()
 
   const { data, loading } = useQuery(SUBJECT_INFO_DOCUMENT, {
     variables: { getSubjectId: id ?? '' },
@@ -86,18 +94,33 @@ const SubjectInfo = ({ userId }: { userId?: string }) => {
       return
     }
     if (!userId) {
-      alert('Log in first')
+      toast({
+        // title: 'Account created.',
+        description: 'Please log in',
+        status: 'info',
+        duration: 3000,
+        isClosable: true,
+      })
+      onOpen()
       return
     }
+
+    setIsLoading(true)
     if (liked) {
       await removeLike({ variables: { removeFavoriteId: id } })
     } else {
       await addLike({ variables: { addFavoriteId: id } })
     }
+    setIsLoading(false)
   }
 
   if (loading || data?.getSubject == null) {
-    return <div>loading...</div>
+    return (
+      <Box padding="6" >
+        <SkeletonCircle size="10" />
+        <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+      </Box>
+    )
   }
 
   const subject = data.getSubject
@@ -168,15 +191,16 @@ const SubjectInfo = ({ userId }: { userId?: string }) => {
             </Box>
           </Stack>
           {!liked && (
-            <Button w={'full'} mt={8} size={'lg'} py={'7'} onClick={handleLike}>
+            <Button w={'full'} mt={8} size={'lg'} py={'7'} onClick={handleLike} isLoading={isLoading}>
               {subject.likesCount} Likes
             </Button>
           )}
           {liked && (
-            <Button w={'full'} mt={8} size={'lg'} py={'7'} onClick={handleLike}>
+            <Button w={'full'} mt={8} size={'lg'} py={'7'} onClick={handleLike} isLoading={isLoading}>
               {subject.likesCount} Unlike
             </Button>
           )}
+          <Login isOpen={isOpen} onClose={onClose} />
         </Stack>
       </SimpleGrid>
     </Container>

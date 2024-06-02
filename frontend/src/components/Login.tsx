@@ -12,7 +12,12 @@ const loginMutation = graphql(/* GraphQL */ `
   }
 `)
 
-const Login = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+interface loginProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
+const Login = ({ isOpen, onClose }: loginProps) => {
   const [username, setUsername] = useState('admin')
   const [password, setPassword] = useState('secret')
   const [errorMessage, setErrorMessage] = useState('')
@@ -35,7 +40,7 @@ const Login = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>
       const token = data.login?.value
       if (token) {
         localStorage.setItem('user-token', token)
-        navigate('/')
+        // navigate('/')
         window.location.reload()
       }
     }
