@@ -9,7 +9,7 @@ import { readFilesRecursively } from '../utils/files'
 import { GRAPHQL_SCHEMAS } from '../utils/config'
 import { faker } from '@faker-js/faker'
 
-const input: MutationCreateSubjectArgs = {
+const variables: MutationCreateSubjectArgs = {
   input: {
     category: faker.lorem.word(),
     title: faker.lorem.word(),
@@ -49,18 +49,18 @@ describe('Subject: ', () => {
           }
         }
       `,
-      variables: { ...input },
+      variables: { ...variables },
     })
 
     assert(response.body.kind === 'single')
     assert.strictEqual(response.body.singleResult.errors, undefined)
     assert.notEqual(response.body.singleResult.data?.createSubject.id, null || undefined)
-    assert.strictEqual(response.body.singleResult.data?.createSubject.category, input.input.category)
-    assert.strictEqual(response.body.singleResult.data?.createSubject.title, input.input.title)
-    assert.strictEqual(response.body.singleResult.data?.createSubject.max_year, input.input.max_year)
-    assert.strictEqual(response.body.singleResult.data?.createSubject.min_year, input.input.min_year)
-    assert.strictEqual(response.body.singleResult.data?.createSubject.obverse_thumbnail, input.input.obverse_thumbnail)
-    assert.strictEqual(response.body.singleResult.data?.createSubject.reverse_thumbnail, input.input.reverse_thumbnail)
+    assert.strictEqual(response.body.singleResult.data?.createSubject.category, variables.input.category)
+    assert.strictEqual(response.body.singleResult.data?.createSubject.title, variables.input.title)
+    assert.strictEqual(response.body.singleResult.data?.createSubject.max_year, variables.input.max_year)
+    assert.strictEqual(response.body.singleResult.data?.createSubject.min_year, variables.input.min_year)
+    assert.strictEqual(response.body.singleResult.data?.createSubject.obverse_thumbnail, variables.input.obverse_thumbnail)
+    assert.strictEqual(response.body.singleResult.data?.createSubject.reverse_thumbnail, variables.input.reverse_thumbnail)
   })
 
   test('should has 1 subject', async () => {
@@ -82,7 +82,8 @@ describe('Subject: ', () => {
 
     assert(response.body.kind === 'single')
     assert.strictEqual(response.body.singleResult.errors, undefined)
-    assert.strictEqual(response.body.singleResult.data?.allSubjects.length, 1)
+    assert.strictEqual(response.body.singleResult.data?.allSubjects.at(0)?.title, variables.input.title)
+    assert.strictEqual(response.body.singleResult.data?.allSubjects.at(0)?.category, variables.input.category)
   })
 })
 

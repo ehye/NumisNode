@@ -70,9 +70,9 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'pnpm run build && pnpm --dir "../" run start',
+    command: 'pnpm --dir "../" run start:test',
     url: 'http://localhost:3001',
     reuseExistingServer: !process.env.CI,
-    stdout: 'pipe',
+    stdout: 'pipe'
   },
 })

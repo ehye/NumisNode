@@ -78,7 +78,7 @@ const start = async () => {
     })
   }
 
-  if (IS_PROD) {
+  if (!IS_DEV) {
     app.use(express.static(path.join(__dirname, '..', 'dist')))
   }
 

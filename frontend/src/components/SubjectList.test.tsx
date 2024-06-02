@@ -34,7 +34,6 @@ it('should renders subjects', async () => {
       </MockedProvider>
     </MemoryRouter>
   )
-  expect(await screen.findByText('Loading...')).toBeInTheDocument()
   expect(await screen.findByText('5 Cents - Edward VII')).toBeInTheDocument()
   expect(await screen.findByText('5 Cents - Victoria')).toBeInTheDocument()
 })

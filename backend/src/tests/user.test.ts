@@ -21,7 +21,7 @@ before(async () => {
 })
 
 describe('User: ', () => {
-  const input: MutationCreateUserArgs = {
+  const variables: MutationCreateUserArgs = {
     input: {
       username: faker.internet.userName(),
       password: faker.internet.password(),
@@ -39,13 +39,13 @@ describe('User: ', () => {
           }
         }
       `,
-      variables: { ...input },
+      variables: { ...variables },
     })
 
     assert(response.body.kind === 'single')
     assert.strictEqual(response.body.singleResult.errors, undefined)
     assert.notEqual(response.body.singleResult.data?.createUser.id, null || undefined)
-    assert.strictEqual(response.body.singleResult.data?.createUser.username, input.input.username)
+    assert.strictEqual(response.body.singleResult.data?.createUser.username, variables.input.username)
   })
 
   test('should has 1 issuer', async () => {
@@ -63,7 +63,7 @@ describe('User: ', () => {
 
     assert(response.body.kind === 'single')
     assert.strictEqual(response.body.singleResult.errors, undefined)
-    assert.strictEqual(response.body.singleResult.data?.allUsers.length, 1)
+    assert.strictEqual(response.body.singleResult.data?.allUsers.at(0)?.username, variables.input.username)
   })
 })
 

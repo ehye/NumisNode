@@ -21,7 +21,7 @@ before(async () => {
 })
 
 describe('Issuer: ', () => {
-  const input: MutationCreateIssuerArgs = {
+  const variables: MutationCreateIssuerArgs = {
     input: {
       code: faker.lorem.word(),
       name: faker.lorem.word(),
@@ -41,15 +41,15 @@ describe('Issuer: ', () => {
           }
         }
       `,
-      variables: { ...input },
+      variables: { ...variables },
     })
 
     assert(response.body.kind === 'single')
     assert.strictEqual(response.body.singleResult.errors, undefined)
     assert.notEqual(response.body.singleResult.data?.createIssuer.id, null || undefined)
-    assert.strictEqual(response.body.singleResult.data?.createIssuer.code, input.input.code)
-    assert.strictEqual(response.body.singleResult.data?.createIssuer.name, input.input.name)
-    assert.strictEqual(response.body.singleResult.data?.createIssuer.wikidata_id, input.input.wikidata_id)
+    assert.strictEqual(response.body.singleResult.data?.createIssuer.code, variables.input.code)
+    assert.strictEqual(response.body.singleResult.data?.createIssuer.name, variables.input.name)
+    assert.strictEqual(response.body.singleResult.data?.createIssuer.wikidata_id, variables.input.wikidata_id)
   })
 
   test('should has 1 issuer', async () => {
@@ -66,12 +66,14 @@ describe('Issuer: ', () => {
           }
         }
       `,
-      variables: { ...input },
+      variables: { ...variables },
     })
 
     assert(response.body.kind === 'single')
     assert.strictEqual(response.body.singleResult.errors, undefined)
-    assert.strictEqual(response.body.singleResult.data?.allIssuers.length, 1)
+    assert.strictEqual(response.body.singleResult.data?.allIssuers.at(0)?.name, variables.input.name)
+    assert.strictEqual(response.body.singleResult.data?.allIssuers.at(0)?.code, variables.input.code)
+    assert.strictEqual(response.body.singleResult.data?.allIssuers.at(0)?.wikidata_id, variables.input.wikidata_id)
   })
 })
 

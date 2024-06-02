@@ -1,8 +1,11 @@
-const loginWith = async (page, username, password) => {
-  await page.getByRole('link', { name: 'Log in' }).click()
-  await page.locator('form div').filter({ hasText: 'username' }).getByRole('textbox').fill(username)
-  await page.locator('input[type="password"]').fill(password)
-  await page.getByRole('button', { name: 'login' }).click()
+import { expect, Page } from '@playwright/test'
+
+const loginWith = async (page: Page, username: string, password: string) => {
+  await page.getByLabel('avatar').click();
+  await page.getByLabel('username').fill(username)
+  await page.getByLabel('password').fill(password)
+  await expect(page.getByRole('button', { name: 'Log in' })).toBeVisible()
+  await page.getByRole('button', { name: 'Log in' }).click();
 }
 
 export { loginWith }

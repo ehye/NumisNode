@@ -7,6 +7,7 @@
     "dev": "cross-env NODE_ENV=development ts-node-dev ./backend/index.ts",
     "start": "cross-env NODE_ENV=production ts-node ./backend/index.ts",
     "test": "cross-env NODE_ENV=test tsx --test ./backend/src/tests/index.test.ts",
+    "start:test": "cross-env NODE_ENV=test ts-node ./backend/index.ts",
     "build": "pnpm install && cd ./frontend && pnpm install && pnpm run build",
     "lint": "eslint . --no-error-on-unmatched-pattern --max-warnings 0",
     "generate": "graphql-codegen --config ./backend/codegen.ts",
